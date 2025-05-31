@@ -5,16 +5,19 @@ import java.util.*;
 import Blocks.Block;
 
 public class Game implements KeyListener{
-    static String[] blocks = new String[]{"I","J","L","O","S","T","Z"};
-    private Window window;
-    private Boolean gameover = false;
-    private int score = 0;
-    private Block currentBlock;
-    private Block[] nextBlocks = new Block[3];
-    private Block holdBlock;
-    private String[][] tetrisTable = new String[22][10];
-    private Boolean holdUsed = false;
-    private Boolean dropping = false;
+    static String[] blocks = new String[]{"I","J","L","O","S","T","Z"}; // Possible blocks
+    private Window window; // Window for game visualization
+    private String[][] tetrisTable = new String[22][10]; // Tetris game table (22 rows, 10 columns)
+    private Block currentBlock; // Current block being controlled
+    private Block holdBlock; // Current hold block
+    private Block[] nextBlocks = new Block[3]; // Next blocks to be spawned
+    private Boolean holdUsed = false; // Flag to check if hold was used
+    private Boolean dropping = false; // Flag to check if block is dropping
+    private Boolean gameover = false; // Gameover flag
+    private int speed = 50; // Speed in milliseconds
+    private int score = 0; // Current score
+    private int speedChange = 50; // Speed change value
+    private int minSpeed = 100; // Minimum speed value
     Game() {
         window = new Window();
         window.addKeyListener(this);
@@ -31,7 +34,7 @@ public class Game implements KeyListener{
         while (!gameover) {
             gravity();
             update();
-            Thread.sleep(500);
+            Thread.sleep(speed);
         }
         System.out.println("Game Over!");
     }
@@ -206,6 +209,11 @@ public class Game implements KeyListener{
     }
     private void addScore(int sc) {
         score += sc;
+        speedUp(); // Speed up if score is high enough
+    }
+    private void speedUp() {
+        int k = (500-speed)/speedChange; // What thousand is the score in
+        if (score >= (k+1)*1000 && speed-speedChange >= minSpeed) {speed += -speedChange;} // Speed up
     }
     private Boolean isGameover() {
         Boolean over = false;
