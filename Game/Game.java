@@ -13,6 +13,8 @@ public class Game implements KeyListener{
     private Block[] nextBlocks = new Block[3];
     private Block holdBlock;
     private String[][] tetrisTable = new String[22][10];
+    private Boolean holdUsed = false;
+    private Boolean dropping = false;
     Game() {
         window = new Window();
         window.addKeyListener(this);
@@ -42,12 +44,14 @@ public class Game implements KeyListener{
     }
     private void spawn() {
         pickFromNext();
+        holdUsed = false; dropping = false;
         for (int[] cord : currentBlock.getCords()) {
             tetrisTable[cord[1]][cord[0]] = currentBlock.getName();
         }
     }
     private void spawn(String block) {
         currentBlock = Block.Factory(block);
+        holdUsed = false; dropping = false;
         for (int[] cord : currentBlock.getCords()) {
             tetrisTable[cord[1]][cord[0]] = currentBlock.getName();
         }
@@ -88,6 +92,7 @@ public class Game implements KeyListener{
         }
     }
     private void hold() {
+        if (holdUsed) {return;} // If hold was already used, do nothing
         for (int[] cord : currentBlock.getCords()) {
             tetrisTable[cord[1]][cord[0]] = "";
         }
@@ -100,11 +105,13 @@ public class Game implements KeyListener{
             holdBlock = currentBlock;
             spawn();
         }
+        holdUsed = true;
     }
     private void drop() {
         while (isEmptyUnder(currentBlock)) {
             moveDown();
         }
+        dropping = true;
     }
     private void rotate() {
         for (int[] cord : currentBlock.getCords()) {
@@ -318,12 +325,12 @@ public class Game implements KeyListener{
     public void keyPressed(KeyEvent e) {
     }
     public void keyReleased(KeyEvent e) {
-        if (gameover) {return;}
+        if (gameover || dropping) {return;}
         else if (e.getKeyCode() == KeyEvent.VK_LEFT && isEmptyToLeft(currentBlock)) {moveHorizontally(-1);}
         else if (e.getKeyCode() == KeyEvent.VK_RIGHT && isEmptyToRight(currentBlock)) {moveHorizontally(1);}
         else if (e.getKeyCode() == KeyEvent.VK_DOWN && isEmptyUnder(currentBlock)) {moveDown();}
         else if (e.getKeyCode() == KeyEvent.VK_ENTER) {hold();}
-        else if (e.getKeyCode() == KeyEvent.VK_SPACE && isEmptyUnder(currentBlock)) {drop();}
+        else if (e.getKeyCode() == KeyEvent.VK_SPACE) {drop();}
         else if (e.getKeyCode() == KeyEvent.VK_UP && canRotate(currentBlock)) {rotate();}
         update();
     }
