@@ -22,7 +22,7 @@ public class Game implements KeyListener{
         window = new Window();
         window.addKeyListener(this);
         Random rand = new Random();
-        for (int n=0;n<3;n++) { 
+        for (int n=0;n<3;n++) {
             nextBlocks[n] = Block.Factory(blocks[rand.nextInt(blocks.length)]);
         }
         initTable();
