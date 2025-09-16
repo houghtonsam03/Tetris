@@ -22,7 +22,7 @@ public class Game implements KeyListener{
         window = new Window();
         window.addKeyListener(this);
         Random rand = new Random();
-        for (int n=0;n<3;n++) {
+        for (int n=0;n<3;n++) { 
             nextBlocks[n] = Block.Factory(blocks[rand.nextInt(blocks.length)]);
         }
         initTable();
@@ -74,7 +74,6 @@ public class Game implements KeyListener{
         else if (!isGameover()) {
             tetris();
             spawn();
-            holdUsed = false; // Reset hold usage.
         } else {gameover = isGameover();}
     }
     private void moveDown() {
