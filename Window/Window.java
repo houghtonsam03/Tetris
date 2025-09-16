@@ -28,6 +28,7 @@ public class Window extends JFrame {
         pack();
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setVisible(true);
+        super.setResizable(false);
     }
     private void resize() {
         header.setPreferredSize(new Dimension(WIDTH,HEIGHT-TABLE_HEIGHT));
