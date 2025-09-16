@@ -14,7 +14,7 @@ public class Game implements KeyListener{
     private Boolean holdUsed = false; // Flag to check if hold was used
     private Boolean dropping = false; // Flag to check if block is dropping
     private Boolean gameover = false; // Gameover flag
-    private int speed = 50; // Speed in milliseconds
+    private int speed = 500; // Speed in milliseconds
     private int score = 0; // Current score
     private int speedChange = 50; // Speed change value
     private int minSpeed = 100; // Minimum speed value
