@@ -74,6 +74,7 @@ public class Game implements KeyListener{
         else if (!isGameover()) {
             tetris();
             spawn();
+            holdUsed = false; // Reset hold usage.
         } else {gameover = isGameover();}
     }
     private void moveDown() {
